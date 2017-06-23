@@ -1,12 +1,13 @@
 const readConfig = require('read-config');
 const os = require('os');
 const path = require('path');
-export class Config {
+
+class Config {
 
     private config: any;
     constructor() {
 
-        let configPath = path.join(os.homedir(),'.atgrc.json')
+        let configPath = path.join(os.homedir(), '.atgrc.json')
 
         try {
             this.config = readConfig(configPath);
@@ -16,7 +17,10 @@ export class Config {
         }
     }
 
-    public get(key:string):any{
+    public get(key: string): any {
         return this.config[key];
     }
 }
+
+const conf: Config = new Config();
+module.exports= conf;
