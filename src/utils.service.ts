@@ -4,7 +4,7 @@ const path = require('path');
 export class Utils {
 
     public static getPropertiesFromNucleusPath(componentPath:string):string{
-        return path.join(config.get('atgHome'),path+'.properties');
+        return path.join(config.get('atgHome'),'localconfig',path+'.properties');
     }
 
     public  static openFile( file:string):void{

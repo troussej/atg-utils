@@ -24,5 +24,9 @@ gulp.task('scripts', function() {
 
 gulp.task("watch", function() {
     runSequence("clean",  "scripts");
-    gulp.watch(["src"], ["scripts"]);
+    gulp.watch(["./src"], ["scripts"]);
+});
+
+gulp.task("default", function(done) {
+    runSequence("clean", "scripts",  done);
 });
