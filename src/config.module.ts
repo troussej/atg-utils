@@ -2,6 +2,7 @@ const readConfig = require('read-config');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
+const screenlog = require('./utils/screen.module');
 
 class Config {
 
@@ -27,7 +28,7 @@ class Config {
 
 
         if (!this.loaded) {
-            console.error('Cannot read config file %s', this.configPath);
+            screenlog.error('Cannot read config file %s', this.configPath);
         }
 
     }

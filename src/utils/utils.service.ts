@@ -1,4 +1,4 @@
-const config = require('./config.module')
+const config = require('../config.module')
 const path = require('path');
 
 export class Utils {
