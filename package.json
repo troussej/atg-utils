@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "bin": {
+  "atg": "./bin/atg.js"
+ },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run run:dev",
@@ -25,7 +28,11 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.1",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.1.7",
     "nodemon": "^1.11.0",
+    "run-sequence": "^1.2.2",
     "ts-node": "^3.0.6",
     "typescript": "^2.3.4"
   }
