@@ -5,7 +5,7 @@ const logger = require('../utils/screen.module');
 import * as _ from "lodash";
 
 export class EditLocalConfig extends Command {
-    name: string = 'config';
+    name: string = 'edit';
     desc: string = 'Edit localconfig';
     handler = (params: any) => {
         let npath = params.path;

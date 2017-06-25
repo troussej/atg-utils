@@ -5,6 +5,7 @@ export abstract class Command {
     desc: String;
     handler: Function;
     options: Option[];
+    subCommands: Command[];
 
 }
 

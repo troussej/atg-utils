@@ -1,4 +1,4 @@
-import { Launcher } from './commands';
+import { Commands } from './commands';
 
 
-Launcher.start();
+new Commands().start();
