@@ -1,18 +1,16 @@
-import { Command } from './command.model';
+import { Command, Option } from './command.model';
 
 import { EditLocalConfig } from './commands/editLocalConfig.command'
-const config:Config = require('./config.module');
+const config: Config = require('./config.module');
 import * as _ from "lodash";
 
 
 
 export class Launcher {
 
-
-
     public static start() {
 
-        if(!config.isLoaded()){
+        if (!config.isLoaded()) {
             return -1;
         };
 
@@ -28,6 +26,17 @@ export class Launcher {
                 desc: cmd.desc,
                 callback: cmd.handler
             });
+            _.forEach(cmd.options, (opt: Option) => {
+                sc.option(
+                    opt.name, {
+                        abbr: opt.abbr,
+                        desc: opt.desc,
+                        valueName: opt.valueName,
+                        flag: opt.flag,
+                        default: opt.default
+                    }
+                )
+            })
         });
 
         sc.scriptName('atg');
