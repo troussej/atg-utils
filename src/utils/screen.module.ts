@@ -18,6 +18,12 @@ class MyScreen {
         this.out(chalk.red(msg), params)
 
     }
+
+    public info(msg: string, params: any[]) {
+
+        this.out(chalk.cyan(msg), params)
+
+    }
 }
 
 const s: MyScreen = new MyScreen();

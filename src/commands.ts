@@ -1,6 +1,7 @@
 import { Command, Option } from './command.model';
 
 import { EditLocalConfig } from './commands/editLocalConfig.command'
+import { ListLocalConfig } from './commands/listLocalConfig.command'
 const config: Config = require('./config.module');
 import * as _ from "lodash";
 
@@ -16,7 +17,8 @@ export class Launcher {
 
 
         let commands: Command[] = [
-            new EditLocalConfig()
+            new EditLocalConfig(),
+            new ListLocalConfig()
         ];
 
         var sc = require('subcommander');

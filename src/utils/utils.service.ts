@@ -1,6 +1,9 @@
 const config = require('../config.module')
 const path = require('path');
 import * as _ from "lodash";
+const shell = require('shelljs');
+const logger = require('./screen.module');
+
 export class Utils {
 
     public static getPropertiesFromNucleusPath(componentPath: string): string {
@@ -29,6 +32,19 @@ export class Utils {
             }
             return res;
         }
+    }
+
+    public static listLocalConfig(): string[] {
+        let dynHome = config.get('dynamoHome');
+        let files = shell.find(dynHome).filter((val: string) => val.match(/\.properties$/));
+        let components = _.map(files, (path: string) => path.replace(/.*localconfig/, '').replace('.properties', '')).sort();
+        return components;
+    }
+
+    public static printList(list: string[]): void {
+        _.each(list, (elem: string) => {
+            logger.out(elem);
+        })
     }
 
 }
