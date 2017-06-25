@@ -4,7 +4,8 @@ import * as _ from "lodash";
 export class Utils {
 
     public static getPropertiesFromNucleusPath(componentPath: string): string {
-        return path.join(config.get('dynamoHome'), 'localconfig', componentPath + '.properties');
+        let cleanpath = Utils.cleanPath(componentPath);
+        return path.join(config.get('dynamoHome'), 'localconfig', cleanpath + '.properties');
     }
 
     public static openFile(file: string): void {

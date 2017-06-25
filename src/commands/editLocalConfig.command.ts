@@ -12,9 +12,9 @@ export class EditLocalConfig extends Command {
         if (_.isEmpty(npath)) {
             logger.error('Missing argument --path');
         } else {
-            let cleanpath = Utils.cleanPath(npath);
+
             // logger.out(cleanpath)
-            let filePath = Utils.getPropertiesFromNucleusPath(cleanpath);
+            let filePath = Utils.getPropertiesFromNucleusPath(npath);
             // logger.out(filePath)
             Utils.openFile(filePath)
         }
