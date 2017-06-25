@@ -3,6 +3,8 @@ const path = require('path');
 import * as _ from "lodash";
 const shell = require('shelljs');
 const logger = require('./screen.module');
+var properties = require("properties");
+const Q = require('q');
 
 export class Utils {
 
@@ -11,11 +13,15 @@ export class Utils {
         return path.join(config.get('dynamoHome'), 'localconfig', cleanpath + '.properties');
     }
 
+    public static getNucleusPathFromFilePath(filePath: string): string {
+        return filePath.replace(/.*localconfig/, '').replace('.properties', '');
+    }
+
     public static openFile(file: string): void {
         var exec = require('child_process').exec;
         var cmd = `${config.get('editor')} ${file}`;
 
-        exec(cmd, function (error: any, stdout: any, stderr: any) {
+        exec(cmd, function () {
             // command output is in stdout
         });
     }
@@ -34,10 +40,15 @@ export class Utils {
         }
     }
 
-    public static listLocalConfig(): string[] {
+    public static listLocalConfigFiles(): string[] {
         let dynHome = config.get('dynamoHome');
         let files = shell.find(dynHome).filter((val: string) => val.match(/\.properties$/));
-        let components = _.map(files, (path: string) => path.replace(/.*localconfig/, '').replace('.properties', '')).sort();
+        return files;
+    }
+
+    public static listLocalConfig(): string[] {
+        let files = Utils.listLocalConfigFiles();
+        let components = _.map(files, Utils.getNucleusPathFromFilePath).sort();
         return components;
     }
 
@@ -47,4 +58,36 @@ export class Utils {
         })
     }
 
+    public static readConfigFile(filepath: string): Promise<any> {
+        var deferred = Q.defer();
+        properties.parse(filepath, { path: true }, function (error: any, obj: any) {
+            if (error) {
+                logger.error(error);
+                deferred.reject(new Error(error));
+            }
+            else {
+                deferred.resolve(obj);
+
+            };
+        });
+        return deferred.promise;
+    }
+
+    public static readLoggingConfig(properties: any): any {
+
+        let config: any = {};
+        if (!_.isNil(properties.loggingTrace)) {
+            config.loggingTrace = properties.loggingTrace;
+        }
+        if (!_.isNil(properties.loggingDebug)) {
+            config.loggingDebug = properties.loggingDebug;
+        }
+        if (!_.isNil(properties.loggingInfo)) {
+            config.loggingInfo = properties.loggingInfo;
+        }
+        if (!_.isNil(properties.loggingError)) {
+            config.loggingError = properties.loggingError;
+        }
+        return config;
+    }
 }

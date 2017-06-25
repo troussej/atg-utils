@@ -30,7 +30,6 @@ export class Commands {
         });
         if (cmdDef.subCommands && cmdDef.subCommands.length > 0) {
             _.forEach(cmdDef.subCommands, (subCommand: Command) => {
-                console.log('sub cmd %j', subCommand)
                 this.initCommand(cmdInst, subCommand);
             })
         }

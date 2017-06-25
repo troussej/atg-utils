@@ -11,7 +11,7 @@ export class ListLocalConfig extends Command {
 
     name: string = 'list';
     desc: string = 'List localconfig';
-    handler = (params: any) => {
+    handler = () => {
         logger.info('Local config :')
         Utils.printList(Utils.listLocalConfig());
     };
