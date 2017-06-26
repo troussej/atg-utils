@@ -42,7 +42,7 @@ export class Utils {
 
     public static listLocalConfigFiles(): string[] {
         let dynHome = config.get('dynamoHome');
-        let files = shell.find(dynHome).filter((val: string) => val.match(/\.properties$/));
+        let files = shell.find(path.join(dynHome,'localconfig')).filter((val: string) => val.match(/\.properties$/));
         return files;
     }
 
