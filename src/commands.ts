@@ -10,29 +10,26 @@ import * as _ from "lodash";
 
 export class Commands {
 
-    private initCommand(sc: any, cmdDef: Command) {
+    private initCommand(program: any, cmdDef: Command) {
 
-        let cmdInst = sc.command(cmdDef.name, {
-            desc: cmdDef.desc,
-            callback: cmdDef.handler
-        });
-        _.forEach(cmdDef.options, (opt: Option) => {
-            cmdInst.option(
-                opt.name, {
-                    abbr: opt.abbr,
-                    desc: opt.desc,
-                    valueName: opt.valueName,
-                    flag: opt.flag,
-                    default: opt.default
-                }
-            )
 
-        });
-        if (cmdDef.subCommands && cmdDef.subCommands.length > 0) {
-            _.forEach(cmdDef.subCommands, (subCommand: Command) => {
-                this.initCommand(cmdInst, subCommand);
-            })
-        }
+        program.command(cmdDef.command, cmdDef.desc);
+
+
+        // _.forEach(cmdDef.options, (opt: Option) => {
+        //     program.option(
+        //         opt.name, {
+        //             abbr: opt.abbr,
+        //             desc: opt.desc,
+        //             valueName: opt.valueName,
+        //             flag: opt.flag,
+        //             default: opt.default
+        //         }
+        //     )
+
+        // });
+       // program.action(cmdDef.handler);
+        
 
     }
 
@@ -45,18 +42,22 @@ export class Commands {
 
         let commands: Command[] = [
             new EditLocalConfig(),
-            new ListLocalConfig(),
-            new Logs()
+            new ListLocalConfig()
+           // new Logs()
         ];
 
-        var sc = require('subcommander');
+
+        const program = require('commander');
+
+
         _.forEach(commands, (cmd: Command) => {
-            this.initCommand(sc, cmd);
+            this.initCommand(program, cmd);
         })
 
+        program.parse(process.argv);
 
-        sc.scriptName('atg');
-        sc.parse();
+
+
 
     }
 }

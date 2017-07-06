@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+'use strict';
+const program = require('commander');
+const handler = require('{{handler}}')
+
+program
+    .version('{{version}}')
+  
+
+program.parse(process.argv);
+
+handler(program);

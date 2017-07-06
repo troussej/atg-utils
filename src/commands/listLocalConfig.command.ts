@@ -9,7 +9,7 @@ const config = require('../config.module')
 export class ListLocalConfig extends Command {
 
 
-    name: string = 'list';
+    command: string = 'list';
     desc: string = 'List localconfig';
     handler = () => {
         logger.info('Local config :')

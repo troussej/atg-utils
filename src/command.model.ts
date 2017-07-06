@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
 export abstract class Command {
-    name: String;
+    command: String;
     desc: String;
     handler: Function;
     options: Option[];
@@ -11,6 +11,7 @@ export abstract class Command {
 
 export class Option {
     name: string;
+   
     abbr: string;
     desc: string;
     valueName: string;
