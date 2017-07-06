@@ -7,11 +7,12 @@ const Q = require('q');
 const config = require('../config.module')
 require('console.table');
 
- class ListLogs extends Command {
+class ListLogs extends Command {
+    name: string = 'logs';
+    command: string = 'logs';
+    description: string = 'list local logging override';
+    scriptName: string = 'logs.list';
 
-
-    name: string = 'list';
-    desc: string = 'list all local logging override';
     handle = () => {
         let files = Utils.listLocalConfigFiles();
         let components = _.map(files, Utils.getNucleusPathFromFilePath);

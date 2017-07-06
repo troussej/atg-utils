@@ -8,9 +8,11 @@ const config = require('../config.module')
 
 class ListLocalConfig extends Command {
 
-
+    name: string = 'list';
     command: string = 'list';
-    desc: string = 'List localconfig';
+    description: string = 'list local configuration';
+    scriptName: string = 'listLocalConfig';
+
     handle = () => {
         logger.info('Local config :')
         Utils.printList(Utils.listLocalConfig());

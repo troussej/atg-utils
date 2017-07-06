@@ -5,14 +5,12 @@
             "command":"list",
             "description":"list local configuration",
             "handler":"listLocalConfig",
-            "version":"0.0.1"
         },
          {
             "name":"logs",
             "command":"logs",
             "description":"lists logging levels in localconfig",
             "handler":"logs.list",
-            "version":"0.0.1"
         }
     ]
 }

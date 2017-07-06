@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+const path = require('path');
 
 export abstract class Command {
     command: String;
@@ -8,6 +9,7 @@ export abstract class Command {
     subCommands: Command[];
 
     abstract handle: Function;
+
 }
 
 export class Option {
@@ -38,4 +40,6 @@ export class Option {
         }
 
     }
+
+
 }

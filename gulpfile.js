@@ -4,7 +4,7 @@ const del = require("del");
 const ts = require('gulp-typescript');
 const runSequence = require("run-sequence");
 const tsProject = ts.createProject('tsconfig.json');
-const binConfig = require('./config.json')
+
 const _ = require('lodash');
 const mustache = require("gulp-mustache");
 const rename = require("gulp-rename");
@@ -29,6 +29,8 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('bin', function() {
+
+    const binConfig = require('./dist/commands')
 
     _.forEach(binConfig.commands, (cmdCfg) => {
         gulp.src("./build/atg-subcommand.mustache")

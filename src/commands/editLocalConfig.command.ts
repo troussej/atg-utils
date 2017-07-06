@@ -5,8 +5,11 @@ const logger = require('../utils/screen.module');
 import * as _ from "lodash";
 
 class EditLocalConfig extends Command {
+
+    name: string = 'edit';
     command: string = 'edit <component>';
-    desc: string = 'Edit <nucleus path>';
+    description: string = 'edit local configuration';
+    scriptName: string = 'editLocalConfig';
     handle = (npath: string) => {
         if (_.isEmpty(npath)) {
             logger.error('Missing argument path');
