@@ -7,6 +7,7 @@ export abstract class Command {
     options: Option[];
     subCommands: Command[];
 
+    abstract handle: Function;
 }
 
 export class Option {

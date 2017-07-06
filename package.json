@@ -2,9 +2,8 @@
   "name": "atg-utils",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
   "bin": {
-    "atg": "./bin/atg.js"
+    "atg": "./dist/bin/atg"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +12,7 @@
     "tsc": "tsc",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
     "build:dev": "./node_modules/.bin/tsc -p tsconfig.json",
-    "run:dev": "node dist/index.js",
+    "run:dev": "node ./dist/bin/atg",
     "dev": "npm run build:dev && npm run run:dev"
   },
   "author": "",
@@ -39,6 +38,9 @@
     "@types/node": "^8.0.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
+    "gulp-chmod": "^2.0.0",
+    "gulp-mustache": "^3.0.0",
+    "gulp-rename": "^1.2.2",
     "gulp-typescript": "^3.1.7",
     "nodemon": "^1.11.0",
     "run-sequence": "^1.2.2",

@@ -2,12 +2,12 @@
 
 'use strict';
 const program = require('commander');
-const handler = require('{{handler}}')
+
 
 program
     .version('{{version}}')
-  
+    {{#commands}}
+    .command("{{command}}","{{description}}")
+    {{/commands}}
+    .parse(process.argv);
 
-program.parse(process.argv);
-
-handler(program);

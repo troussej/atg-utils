@@ -4,10 +4,10 @@ import { Utils } from '../utils/utils.service';
 const logger = require('../utils/screen.module');
 import * as _ from "lodash";
 
-export class EditLocalConfig extends Command {
+class EditLocalConfig extends Command {
     command: string = 'edit <component>';
     desc: string = 'Edit <nucleus path>';
-    handler = (npath: string) => {
+    handle = (npath: string) => {
         if (_.isEmpty(npath)) {
             logger.error('Missing argument path');
         } else {
@@ -23,3 +23,6 @@ export class EditLocalConfig extends Command {
     ]
 
 }
+
+const c: Command = new EditLocalConfig();
+module.exports = c;

@@ -1,7 +1,7 @@
 import { Command, Option } from '../command.model';
 
 import { Utils } from '../utils/utils.service';
-import { ListLogs } from './logs.list.command';
+// import { ListLogs } from './logs.list.command';
 const logger = require('../utils/screen.module');
 import * as _ from "lodash";
 
@@ -17,7 +17,11 @@ export class Logs extends Command {
     constructor() {
         super();
         this.subCommands = [
-            new ListLogs()
+            
         ]
+    }
+
+    handle:()=>{
+
     }
 }

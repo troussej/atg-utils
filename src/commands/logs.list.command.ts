@@ -7,12 +7,12 @@ const Q = require('q');
 const config = require('../config.module')
 require('console.table');
 
-export class ListLogs extends Command {
+ class ListLogs extends Command {
 
 
     name: string = 'list';
     desc: string = 'list all local logging override';
-    handler = () => {
+    handle = () => {
         let files = Utils.listLocalConfigFiles();
         let components = _.map(files, Utils.getNucleusPathFromFilePath);
         let compToFile = _.fromPairs(_.zip(components, files));
@@ -46,3 +46,6 @@ export class ListLogs extends Command {
 
 
 }
+
+const c: Command = new ListLogs();
+module.exports = c;

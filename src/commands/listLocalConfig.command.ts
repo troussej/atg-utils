@@ -6,12 +6,12 @@ import * as _ from "lodash";
 
 const config = require('../config.module')
 
-export class ListLocalConfig extends Command {
+class ListLocalConfig extends Command {
 
 
     command: string = 'list';
     desc: string = 'List localconfig';
-    handler = () => {
+    handle = () => {
         logger.info('Local config :')
         Utils.printList(Utils.listLocalConfig());
     };
@@ -20,3 +20,6 @@ export class ListLocalConfig extends Command {
     ]
 
 }
+
+const c: Command = new ListLocalConfig();
+module.exports = c;
