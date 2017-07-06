@@ -12,7 +12,7 @@ class ListLogs extends Command {
     command: string = 'logs';
     description: string = 'list local logging override';
     scriptName: string = 'logs.list';
-
+    action = () => { };
     handle = () => {
         let files = Utils.listLocalConfigFiles();
         let components = _.map(files, Utils.getNucleusPathFromFilePath);

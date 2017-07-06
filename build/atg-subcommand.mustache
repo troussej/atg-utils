@@ -4,11 +4,10 @@
 const program = require('commander');
 const handler = require('../commands/{{scriptName}}.command')
 
-// program
-//     .version('{{version}}')
-  
-
-program.parse(process.argv);
+program
+    .arguments(handler.arguments)
+    .action(handler.action)
+    .parse(process.argv);
 
 
 handler.handle(program);

@@ -7,8 +7,9 @@ export abstract class Command {
     handler: Function;
     options: Option[];
     subCommands: Command[];
-
+    arguments:string= '';
     abstract handle: Function;
+    abstract action: Function;
 
 }
 

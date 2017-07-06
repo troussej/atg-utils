@@ -13,6 +13,8 @@ class ListLocalConfig extends Command {
     description: string = 'list local configuration';
     scriptName: string = 'listLocalConfig';
 
+    action = () => { };
+
     handle = () => {
         logger.info('Local config :')
         Utils.printList(Utils.listLocalConfig());

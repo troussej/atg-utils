@@ -7,10 +7,14 @@ import * as _ from "lodash";
 class EditLocalConfig extends Command {
 
     name: string = 'edit';
+    arguments: string = '<component>';
     command: string = 'edit <component>';
     description: string = 'edit local configuration';
     scriptName: string = 'editLocalConfig';
-    handle = (npath: string) => {
+
+    handle = () => { };
+    action = (npath:string) => {
+        console.log('npath %s', npath);
         if (_.isEmpty(npath)) {
             logger.error('Missing argument path');
         } else {
