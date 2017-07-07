@@ -49,6 +49,18 @@ Lists the components that have a .properties in your `$DYNAMO_HOME/localconfig`
 
 List the log levels that are overriden in your localconfig
 
+Ex:
+
+```sh
+> atg logs
+component                                                                                        loggingDebug  loggingInfo
+-----------------------------------------------------------------------------------------------  ------------  ----------                                                                                                              
+/atg/commerce/PipelineManager                                                                    false         true       
+/atg/commerce/custsvc/returns/ReturnFormHandler                                                  true                     
+/atg/commerce/custsvc/returns/ReturnManager                                                      false                    
+/atg/commerce/custsvc/returns/ReturnTools                                                        true           
+```
+
 - `atg edit <nucleus-path>`
 
 Opens your editor to edit a .properties in your localconfig
