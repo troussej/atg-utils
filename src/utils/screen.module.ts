@@ -27,4 +27,4 @@ class MyScreen {
 }
 
 const s: MyScreen = new MyScreen();
-module.exports = s;
+module.exports = new MyScreen();

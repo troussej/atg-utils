@@ -2,7 +2,7 @@ const config = require('../config.module')
 import * as path from 'path';
 import * as _ from "lodash";
 import * as shell from 'shelljs';
-import * as logger from './screen.module';
+const logger = require('./screen.module');
 import * as properties from 'properties';
 import * as mkdirp from 'mkdirp';
 import * as Q from 'q';
@@ -21,16 +21,16 @@ export class Utils {
         return filePath.replace(/.*localconfig/, '').replace('.properties', '');
     }
 
-    public static createFolderFromFilePath(file: string): Promise<boolean> {
+    public static createFolderFromFilePath(file: string): Q.Promise<void> {
 
         let dir = path.dirname(file);
 
-        var deferred = Q.defer();
+        var deferred : Q.Deferred<void>= Q.defer<void>();
 
         mkdirp(dir, function(err) {
             if (err) {deferred.reject(err)}
             else {
-                deferred.resolve(true);
+                deferred.resolve();
             }
         });
       
@@ -78,8 +78,8 @@ export class Utils {
         })
     }
 
-    public static readConfigFile(filepath: string): Promise<any> {
-        var deferred = Q.defer();
+    public static readConfigFile(filepath: string): Q.Promise<any> {
+        var deferred:Q.Deferred<any> = Q.defer<any>();
         properties.parse(filepath, { path: true }, function (error: any, obj: any) {
             if (error) {
                 logger.error(error);
