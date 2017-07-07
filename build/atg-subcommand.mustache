@@ -3,11 +3,17 @@
 'use strict';
 const program = require('commander');
 const handler = require('../commands/{{scriptName}}.command')
+const config = require('../config.module');
 
-program
-    .arguments(handler.arguments)
-    .action(handler.action)
-    .parse(process.argv);
+config.checkRequirements().then(
+    ()=>{
+        program
+        .arguments(handler.arguments)
+        .action(handler.action)
+        .parse(process.argv);
 
 
-handler.handle(program);
+         handler.handle(program);
+    }
+)
+

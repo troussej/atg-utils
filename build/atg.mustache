@@ -2,12 +2,17 @@
 
 'use strict';
 const program = require('commander');
+const config = require('../config.module');
 
+config.checkRequirements().then(
+    ()=>{
 
-program
-    .version('{{version}}')
-    {{#commands}}
-    .command("{{& command}}","{{description}}")
-    {{/commands}}
-    .parse(process.argv);
+        program
+            .version('{{version}}')
+            {{#commands}}
+            .command("{{& command}}","{{description}}")
+            {{/commands}}
+            .parse(process.argv);
+
+    });
 
