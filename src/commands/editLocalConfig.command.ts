@@ -13,7 +13,7 @@ class EditLocalConfig extends Command {
     scriptName: string = 'editLocalConfig';
 
     handle = () => { };
-    action = (npath:string) => {
+    action = (npath: string) => {
         console.log('npath %s', npath);
         if (_.isEmpty(npath)) {
             logger.error('Missing argument path');
@@ -22,11 +22,16 @@ class EditLocalConfig extends Command {
             // logger.out(cleanpath)
             let filePath = Utils.getPropertiesFromNucleusPath(npath);
             // logger.out(filePath)
-            Utils.openFile(filePath)
+            Utils.createFolderFromFilePath(filePath).then(
+                () => {
+                    Utils.openFile(filePath)
+                }
+            )
+
         }
     };
     options = [
-       
+
     ]
 
 }

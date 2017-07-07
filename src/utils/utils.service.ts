@@ -4,8 +4,12 @@ import * as _ from "lodash";
 const shell = require('shelljs');
 const logger = require('./screen.module');
 var properties = require("properties");
+var mkdirp = require('mkdirp');
 const Q = require('q');
 
+/**
+ Actually does most of the work...
+*/
 export class Utils {
 
     public static getPropertiesFromNucleusPath(componentPath: string): string {
@@ -15,6 +19,22 @@ export class Utils {
 
     public static getNucleusPathFromFilePath(filePath: string): string {
         return filePath.replace(/.*localconfig/, '').replace('.properties', '');
+    }
+
+    public static createFolderFromFilePath(file: string): Promise<boolean> {
+
+        let dir = path.dirname(file);
+
+        var deferred = Q.defer();
+
+        mkdirp(dir, function(err) {
+            if (err) {deferred.error(err)}
+            else {
+                deferred.resolve(true);
+            }
+        });
+      
+        return deferred.promise;
     }
 
     public static openFile(file: string): void {
