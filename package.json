@@ -1,10 +1,10 @@
 {
   "name": "atg-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
-  "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/troussej/atg-utils.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/troussej/atg-utils.git"
   },
   "bin": {
     "atg": "./dist/bin/atg"
