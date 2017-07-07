@@ -3,7 +3,10 @@
 ## [Unreleased]
 
  - change log level in localconfig
- - more user friendly config setup
+
+## [1.1.0] - 2017-07-7
+### Changed
+ - changed the config file format and name and added prompt for config
 
 ## [1.0.3] - 2017-07-7
 
