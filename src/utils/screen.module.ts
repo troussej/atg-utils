@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import * as chalk from 'chalk';
 
 
 class MyScreen {

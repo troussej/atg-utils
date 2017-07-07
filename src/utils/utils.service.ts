@@ -1,11 +1,11 @@
 const config = require('../config.module')
-const path = require('path');
+import * as path from 'path';
 import * as _ from "lodash";
-const shell = require('shelljs');
-const logger = require('./screen.module');
-var properties = require("properties");
-var mkdirp = require('mkdirp');
-const Q = require('q');
+import * as shell from 'shelljs';
+import * as logger from './screen.module';
+import * as properties from 'properties';
+import * as mkdirp from 'mkdirp';
+import * as Q from 'q';
 
 /**
  Actually does most of the work...
@@ -28,7 +28,7 @@ export class Utils {
         var deferred = Q.defer();
 
         mkdirp(dir, function(err) {
-            if (err) {deferred.error(err)}
+            if (err) {deferred.reject(err)}
             else {
                 deferred.resolve(true);
             }
