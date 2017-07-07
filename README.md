@@ -8,25 +8,22 @@ Command line utilities for ATG
 
 `npm install -g atg-utils`
 
-Create a .atgrc.json file in your user's home with the following content:
+Create a .atgconfig file in your user's home with the following content:
 
-```js
-{
-    "editor":"<your favorite editor, ex vi, subl>",
-    "dynamoHome":"<path to dynamo home>"
-}
+(if you don't create the file, you will be asked each param on first startup)
 
+```bash
+editor=<editor>
+dynamoHome=<dynamo home>
 ```
 
 Ex:
 
-```js
-{
-    "editor":"subl",
-    "dynamoHome":"/some/path/ATG11.1/home"
-}
-
+```bash
+editor=subl
+dynamoHome=/somewhere/foo/bar/ATG/ATG11.2/home
 ```
+
 
 Your user's home folder should be something like:
 
