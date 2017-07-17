@@ -3,12 +3,23 @@ atg-utils
 
 Command line utilities for ATG
 
+# Overview
+
+This command line utility allows simple access to your local config folder, and perform operations on the .properties:
+ - list all the .properties 
+ - list all the logging overides
+ - open the localconfig properties by simply entering a Nucleus path
+ - edit quickly the log levels
+
 
 # Installation
 
 `npm install -g atg-utils`
 
 Create a .atgconfig file in your user's home with the following content:
+
+ - editor : editor of choice (vi,subl,emacs, etc)
+ - dynamoHome : $DYNAMO_ROOT/home
 
 (if you don't create the file, you will be asked each param on first startup)
 
@@ -34,15 +45,30 @@ Your user's home folder should be something like:
 
 # Usage
 
-`atg <command>`
+`> atg <command>`
 
 ## Commands
 
-- `atg list`
+### atg list
+
+`> atg list`
 
 Lists the components that have a .properties in your `$DYNAMO_HOME/localconfig`
 
-- `atg logs`
+Ex:
+
+```sh
+>  atg list
+Local config :
+/atg/commerce/PipelineManager
+/atg/commerce/custsvc/returns/ReturnFormHandler
+/atg/commerce/custsvc/returns/ReturnManager
+/atg/commerce/custsvc/returns/ReturnTools
+```
+
+### atg logs
+
+`> atg logs`
 
 List the log levels that are overriden in your localconfig
 
@@ -58,9 +84,30 @@ component                                                                       
 /atg/commerce/custsvc/returns/ReturnTools                                                        true           
 ```
 
-- `atg edit <nucleus-path>`
+### atg log
 
-Opens your editor to edit a .properties in your localconfig
+ `atg log <level> <value> <nucleus-path>`
+
+Edits the logging level in your localconfig. Creates the files/folder if necessary 
+
+- level: trace, debug, info, error
+- value: true/false
+- path : /a/nucleus/Componennt
+
+Ex:
+
+```sh
+> atg log debug true /some/Component
+set loggingDebug=true in /foobar/ATG/ATG11.2/home/localconfig/some/Component.properties
+```
+
+### atg edit
+
+`> atg edit <nucleus-path>`
+
+- path : /a/nucleus/Componennt
+
+Opens your editor to edit a .properties in your localconfig. Creates the files/folder if necessary
 
 Ex:
 

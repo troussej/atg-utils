@@ -2,7 +2,10 @@
 
 ## [Unreleased]
 
- - change log level in localconfig
+
+## [1.1.1] - 2017-07-17
+### Added
+ - Edit logging level directly
 
 ## [1.1.0] - 2017-07-7
 ### Changed
