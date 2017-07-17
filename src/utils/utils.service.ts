@@ -25,15 +25,15 @@ export class Utils {
 
         let dir = path.dirname(file);
 
-        var deferred : Q.Deferred<void>= Q.defer<void>();
+        var deferred: Q.Deferred<void> = Q.defer<void>();
 
         mkdirp(dir, function(err) {
-            if (err) {deferred.reject(err)}
+            if (err) { deferred.reject(err) }
             else {
                 deferred.resolve();
             }
         });
-      
+
         return deferred.promise;
     }
 
@@ -41,7 +41,7 @@ export class Utils {
         var exec = require('child_process').exec;
         var cmd = `${config.get('editor')} ${file}`;
 
-        exec(cmd, function () {
+        exec(cmd, function() {
             // command output is in stdout
         });
     }
@@ -62,7 +62,7 @@ export class Utils {
 
     public static listLocalConfigFiles(): string[] {
         let dynHome = config.get('dynamoHome');
-        let files = shell.find(path.join(dynHome,'localconfig')).filter((val: string) => val.match(/\.properties$/));
+        let files = shell.find(path.join(dynHome, 'localconfig')).filter((val: string) => val.match(/\.properties$/));
         return files;
     }
 
@@ -79,11 +79,10 @@ export class Utils {
     }
 
     public static readConfigFile(filepath: string): Q.Promise<any> {
-        var deferred:Q.Deferred<any> = Q.defer<any>();
-        properties.parse(filepath, { path: true }, function (error: any, obj: any) {
+        var deferred: Q.Deferred<any> = Q.defer<any>();
+        properties.parse(filepath, { path: true }, function(error: any, obj: any) {
             if (error) {
-                logger.error(error);
-                deferred.reject(new Error(error));
+                deferred.reject(error);
             }
             else {
                 deferred.resolve(obj);
@@ -91,6 +90,35 @@ export class Utils {
             };
         });
         return deferred.promise;
+    }
+
+    public static setLogLevel(level: string, value: boolean, filePath: string): Q.Promise<any> {
+
+        return Utils.readConfigFile(filePath)
+            .fail(err => {
+                if (err.code === 'ENOENT') {
+                    return {}
+                } else {
+                    throw err;
+                }
+            })
+            .then(config => {
+                config[level] = value;
+                return config;
+            })
+            .then((config) => {
+                let def: Q.Deferred<string> = Q.defer<string>();
+                properties.stringify(config, { path: filePath , unicode:true}, (error: any, stringValue: string) => {
+                    if (error) {
+                        console.error('setLogLevel %j', error);
+                        def.reject(error);
+                    } else {
+                        def.resolve(stringValue);
+                    }
+
+                })
+                return def.promise;
+            })
     }
 
     public static readLoggingConfig(properties: any): any {
