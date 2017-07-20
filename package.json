@@ -38,7 +38,9 @@
     "q": "^1.5.0",
     "read-config": "^2.0.0",
     "shelljs": "^0.7.8",
-    "subcommander": "^1.0.0"
+    "subcommander": "^1.0.0",
+    "treeify": "^1.0.1",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "@types/node": "^8.0.1",

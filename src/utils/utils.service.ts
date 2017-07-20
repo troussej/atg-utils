@@ -2,7 +2,7 @@ const config = require('../config.module')
 import * as path from 'path';
 import * as _ from "lodash";
 import * as shell from 'shelljs';
-const logger = require('./screen.module');
+const screen = require('./screen.module');
 import * as properties from 'properties';
 import * as mkdirp from 'mkdirp';
 import * as Q from 'q';
@@ -74,7 +74,7 @@ export class Utils {
 
     public static printList(list: string[]): void {
         _.each(list, (elem: string) => {
-            logger.out(elem);
+            screen.out(elem);
         })
     }
 

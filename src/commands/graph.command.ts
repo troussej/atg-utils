@@ -15,7 +15,7 @@ class ModuleGraph extends Command {
 
     handle = () => { };
     action = (modulepath: string) => {
-        console.log('npath %s', modulepath);
+        //console.log('npath %s', modulepath);
         if (_.isEmpty(modulepath)) {
             logger.error('Missing argument module');
         } else {
