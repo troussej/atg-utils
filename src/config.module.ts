@@ -37,7 +37,7 @@ class Config {
         if (!this.loaded) {
             this.config = {};
         }
-     //   this.checkConfigRequirement();
+        //   this.checkConfigRequirement();
 
 
 
@@ -50,21 +50,21 @@ class Config {
 
     private checkRequirements(): Q.Promise<void> {
 
-        var args = ["dynamoHome", "editor"];
+        var args = ["dynamoHome", "dynamoRoot", "editor"];
 
-        var result :Q.Promise<void>= Q();
+        var result: Q.Promise<void> = Q();
         let self = this;
         args.forEach(function(t) {
             result = result.then(
-                ()=>self.checkConfig(t)
-                )
+                () => self.checkConfig(t)
+            )
         });
         return result;
-        
-        
+
+
     }
 
-    public checkConfig(path: string):Q.Promise<void> {
+    public checkConfig(path: string): Q.Promise<void> {
 
         let deferred: Q.Deferred<void> = Q.defer<void>();
 
@@ -74,7 +74,7 @@ class Config {
                 input: process.stdin,
                 output: process.stdout
             });
-            rl.question('Please set value for ' + path+ '\n', (answer) => {
+            rl.question('Please set value for ' + path + '\n', (answer) => {
                 // TODO: Log the answer in a database
                 this.config[path] = ini.safe(answer);
 
@@ -82,7 +82,7 @@ class Config {
                 this.save();
                 deferred.resolve();
             });
-        }else{
+        } else {
             deferred.resolve();
         }
 
