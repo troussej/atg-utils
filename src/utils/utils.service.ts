@@ -6,6 +6,10 @@ const screen = require('./screen.module');
 import * as properties from 'properties';
 import * as mkdirp from 'mkdirp';
 import * as Q from 'q';
+import * as fs from 'fs';
+
+import * as logger from 'winston';
+logger.level = process.env.LOG_LEVEL
 
 /**
  Actually does most of the work...
@@ -108,7 +112,7 @@ export class Utils {
             })
             .then((config) => {
                 let def: Q.Deferred<string> = Q.defer<string>();
-                properties.stringify(config, { path: filePath , unicode:true}, (error: any, stringValue: string) => {
+                properties.stringify(config, { path: filePath, unicode: true }, (error: any, stringValue: string) => {
                     if (error) {
                         console.error('setLogLevel %j', error);
                         def.reject(error);
@@ -138,4 +142,7 @@ export class Utils {
         }
         return config;
     }
+
+
+  
 }

@@ -28,6 +28,11 @@ gulp.task('scripts', function() {
     return tsResult.js.pipe(gulp.dest(targetFolder));
 });
 
+gulp.task('templates',function(){
+    gulp.src('./src/templates/**/*.mustache')
+    .pipe(gulp.dest('./dist/templates'))
+})
+
 gulp.task('bin', function() {
 
     const binConfig = require('./dist/commands')
@@ -58,5 +63,5 @@ gulp.task("watch", function() {
 });
 
 gulp.task("default", function(done) {
-    runSequence("clean", "scripts", "bin", done);
+    runSequence("clean", "scripts", "templates","bin", done);
 });

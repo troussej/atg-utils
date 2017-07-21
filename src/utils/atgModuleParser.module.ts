@@ -3,9 +3,11 @@ const config = require('../config.module')
 import * as path from 'path';
 import * as _ from "lodash";
 import * as Q from 'q';
+import * as fs from 'fs';
+import * as mustache from 'mustache';
 const screen = require('./screen.module');
-import * as logger from 'winston';
 import * as treeify from 'treeify';
+import * as logger from 'winston';
 logger.level = process.env.LOG_LEVEL
 
 export class ATGModule {
@@ -39,50 +41,17 @@ export class ModuleParser {
             () => {
                 logger.debug(this.modules)
                 this.printTree(this.modules.get(rootName))
+                this.createAndOpenGraph();
             }
         )
 
     }
 
-    // private parseModule(moduleName: string): Q.Promise<void> {
-    //     logger.debug('readManifest %s', moduleName)
 
-    //     var result: Q.Promise<void> = Q();
-
-    //     if (!this.modules.has(moduleName)) {
-
-    //         let manifestPath = path.join(config.get('dynamoRoot'), moduleName.replace('.', path.sep), MANIFEST_SUB_PATH);
-    //         //  logger.debug('manifest %s : ', manifestPath);
-    //         return Utils.readConfigFile(manifestPath)
-    //             .then(data => {
-    //                 let dependencies: string[] = data[ATG_REQ].split(' ');
-    //                 this.modules.set(moduleName, new ATGModule(moduleName, dependencies));
-
-    //                 logger.debug(JSON.stringify(data, null, 4));
-    //                 logger.debug('dependencies %j', dependencies);
-
-
-    //                 let self = this;
-    //                 dependencies.forEach(function(t) {
-    //                     result = result.then(
-    //                         () => self.readManifest(t),//success
-    //                         () => self.readManifest(t),//error : continue
-    //                     )
-    //                 });
-
-
-    //             })
-    //     } else {
-    //         result.thenResolve('false');
-    //     }
-    //     return result;
-
-
-    // }
 
     private readManifest(moduleName: string): Q.Promise<ATGModule> {
-        let manifestPath = path.join(config.get('dynamoRoot'), moduleName.replace('.', path.sep), MANIFEST_SUB_PATH);
-        //  logger.debug('manifest %s : ', manifestPath);
+        let manifestPath = path.join(config.get('dynamoRoot'), moduleName.replace(/\./g, path.sep), MANIFEST_SUB_PATH);
+        logger.debug('manifest %s : ', manifestPath);
         return Utils.readConfigFile(manifestPath)
             .then(data => {
                 let dependencies: string[] = data[ATG_REQ].split(' ');
@@ -144,7 +113,7 @@ export class ModuleParser {
     private printTree(mod: ATGModule): void {
 
         let temp = this.buildPrintTree(mod);
-        logger.debug('temp ', temp);
+        logger.debug('temp %j', temp);
 
         screen.info(mod.name);
         treeify.asLines(temp, true, (line) => {
@@ -167,5 +136,109 @@ export class ModuleParser {
         logger.silly('buildPrintTree res %j', res);
         return res;
 
+    }
+
+    private createAndOpenGraph(): void {
+
+        logger.debug('create graph')
+
+        let nodes: Q.Deferred<string> = Q.defer<string>();
+        this.readModuleFile('../templates/nodes.data.mustache', (err, data) => {
+
+            if (err) {
+                nodes.reject(err);
+            } else {
+                nodes.resolve(data)
+            }
+        })
+
+        let graph: Q.Deferred<string> = Q.defer<string>();
+        this.readModuleFile('../templates/modules.graph.mustache', (err, data) => {
+            if (err) {
+                graph.reject(err);
+            } else {
+                graph.resolve(data)
+            }
+        })
+
+        Q.all([
+            graph.promise,
+            nodes.promise
+        ]).then((retVal) => {
+
+            logger.silly('After reading files %j', retVal);
+
+            let graphFile = retVal[0], nodeTemplate = retVal[1];
+            let nodesData = this.buildGraphData();
+
+            logger.debug('nodes data %j',nodesData)
+
+            let renderedData = mustache.render(nodeTemplate, nodesData);
+
+            logger.debug('renderedData %s', renderedData)
+
+            const osTmpdir = require('os-tmpdir');
+            let temp = osTmpdir();
+            logger.debug('temp folder = %s', temp);
+            let htmlFile = path.join(temp, 'atg.graph.html');
+            let jsfile = path.join(temp, 'atg.graph.js');
+
+            logger.debug('files %s %s ', htmlFile, jsfile);
+
+            fs.writeFileSync(htmlFile, graphFile, { encoding: 'UTF-8' });
+            fs.writeFileSync(jsfile, renderedData, { encoding: 'UTF-8' });
+
+            let opn = require('opn');
+            opn(htmlFile);
+
+        },
+        err =>{
+            logger.error(err);
+        })
+    }
+
+    //      {id: 1, label: 'Node 1' },
+    // { id: 2, label: 'Node 2' },
+    // { id: 3, label: 'Node 3' },
+    // { id: 4, label: 'Node 4' },
+    // { id: 5, label: 'Node 5' },
+    // { id: 6, label: 'Node 6' },
+    // { id: 7, label: 'Node 7' },
+    // { id: 8, label: 'Node 8' }
+    //   ]);
+
+    // // create an array with edges
+    // var edges = new vis.DataSet([
+    //     { from: 1, to: 8, arrows: 'to', dashes: true },
+    //     { from: 1, to: 3, arrows: 'to' },
+    //     { from: 1, to: 2, arrows: 'to, from' },
+    //     { from: 2, to: 4, arrows: 'to, middle' },
+    //     { from: 2, to: 5, arrows: 'to, middle, from' },
+    //     { from: 5, to: 6, arrows: { to: { scaleFactor: 2 } } },
+    //     { from: 6, to: 7, arrows: { middle: { scaleFactor: 0.5 }, from: true } }
+
+    private buildGraphData(): any {
+        let res: any = {};
+        res.nodes = [];
+        res.edges = [];
+        this.modules.forEach((mod:ATGModule)=>{
+            res.nodes.push({ id: mod.name, label: mod.name })
+            _.forEach(mod.dependencies, (dep: string) => {
+                res.edges.push({ from: mod.name, to: dep, arrows: 'to' });
+            })
+        })
+        _
+        return {nodes:JSON.stringify(res.nodes),edges:JSON.stringify(res.edges)};
+    }
+
+    private  readModuleFile(path, callback) {
+        logger.debug('readModuleFile %s', path)
+        try {
+            var filename = require.resolve(path);
+            fs.readFile(filename, 'utf8', callback);
+        } catch (e) {
+            logger.debug('readModuleFile err : %j', e)
+            callback(e);
+        }
     }
 }
