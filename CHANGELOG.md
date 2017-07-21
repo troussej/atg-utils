@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2017-07-21
+### Added
+ - Generate modules dependencies graph
 
 ## [1.1.1] - 2017-07-17
 ### Added

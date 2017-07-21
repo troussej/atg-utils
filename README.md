@@ -112,3 +112,11 @@ Opens your editor to edit a .properties in your localconfig. Creates the files/f
 Ex:
 
 `atg edit /some/test/Component`
+
+### atg graph <module>
+
+`> atg graph <module>`
+
+ - module: the name of a module in $DYNAMO_ROOT . This can be a sub module, like `Project.server.BCC`
+
+ Creates a graph of all the dependencies and opens it in the default browser. (the file is created in the temp folder according to the os);
