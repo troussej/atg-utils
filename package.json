@@ -44,7 +44,8 @@
     "shelljs": "^0.7.8",
     "subcommander": "^1.0.0",
     "treeify": "^1.0.1",
-    "winston": "^2.3.1"
+    "winston": "^2.3.1",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "@types/node": "^8.0.1",
