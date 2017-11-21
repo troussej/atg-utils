@@ -42,9 +42,12 @@ class PipelineChain {
             .value();
 
         let res = `package "${this.name}" {
-        ${nodes.join('\n\t')}
-        ${transitions.join('\n\t')}
-        }`;
+
+    ${nodes.join('\n    ')}
+
+    ${transitions.join('\n    ')}
+
+}`;
 
         return res;
 
