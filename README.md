@@ -123,6 +123,8 @@ Ex:
 
 ### atg pipeline <file>
 
- `> atg graph <module>`
+ `> atg pipeline <file>`
 
- Generates a [puml](http://plantuml.com/) diagram source from a pipeline definition file.
+ Generates a [puml](http://plantuml.com/) diagram source from a pipeline definition file. The pipeline file must be the whole consolidated file (copied from dyn/admin for example).
+
+ TODO : option to generate each chain in it's own file.
