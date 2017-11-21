@@ -10,7 +10,7 @@ This command line utility allows simple access to your local config folder, and 
  - list all the logging overides
  - open the localconfig properties by simply entering a Nucleus path
  - edit quickly the log levels
-
+ - generate puml from a pipeline xml
 
 # Installation
 
@@ -120,3 +120,9 @@ Ex:
  - module: the name of a module in $DYNAMO_ROOT . This can be a sub module, like `Project.server.BCC`
 
  Creates a graph of all the dependencies and opens it in the default browser. (the file is created in the temp folder according to the os);
+
+### atg pipeline <file>
+
+ `> atg graph <module>`
+
+ Generates a [puml](http://plantuml.com/) diagram source from a pipeline definition file.

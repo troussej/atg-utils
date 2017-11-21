@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2017-11-21
+### Added 
+ - Generate puml from pipeline xml
+
 ## [1.2.0] - 2017-07-21
 ### Added
  - Generate modules dependencies graph
