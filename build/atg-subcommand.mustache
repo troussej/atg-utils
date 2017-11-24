@@ -7,13 +7,16 @@ const config = require('../config.module');
 
 config.checkRequirements().then(
     ()=>{
+       <!--  _.each(handler.options,(opt)=>{
+            program.option(opt.arguments,opt.description)
+        }); -->
         program
         .arguments(handler.arguments)
         .action(handler.action)
         .parse(process.argv);
 
 
-         handler.handle(program);
+        handler.handle(program);
     }
 )
 

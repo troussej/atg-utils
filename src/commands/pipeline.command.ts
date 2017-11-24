@@ -14,9 +14,17 @@ class Pipeline extends Command {
     command: string = 'pipeline <file>';
     description: string = 'parse a pipeline definition';
     scriptName: string = 'pipeline';
+    options: any[] = [
+        {
+            argument: '-s, --split <folder>',
+            description: 'Split into one file per chain, and write them to <folder>'
+        }
+    ];
+
 
     handle = () => { };
-    action = (filepath: string) => {
+    action = (filepath: string, options:any) => {
+        console.log('options %j', options);
         //console.log('npath %s', modulepath);
         if (_.isEmpty(filepath)) {
             logger.error('Missing argument filepath');
@@ -27,9 +35,6 @@ class Pipeline extends Command {
 
         }
     };
-    options = [
-
-    ]
 
 }
 
