@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.3.1] - 2017-11-24
+### Added 
+ - Flag to split chains in unitary files
+
 ## [1.3.0] - 2017-11-21
 ### Added 
  - Generate puml from pipeline xml

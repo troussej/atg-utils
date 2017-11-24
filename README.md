@@ -123,8 +123,10 @@ Ex:
 
 ### atg pipeline <file>
 
- `> atg pipeline <file>`
+ `> atg pipeline <file> [-s folder]`
 
  Generates a [puml](http://plantuml.com/) diagram source from a pipeline definition file. The pipeline file must be the whole consolidated file (copied from dyn/admin for example).
 
- TODO : option to generate each chain in it's own file.
+ Writes the result on the standard output
+
+ If the -s (--split) flag is provided, it will write one file per chain in the provided folder. Folder is created if it doesn't exist
