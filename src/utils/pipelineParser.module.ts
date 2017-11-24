@@ -3,7 +3,7 @@ const config = require('../config.module')
 import * as path from 'path';
 import * as _ from "lodash";
 import * as Q from 'q';
-import * as fs from 'fs';
+import * as fs from 'mz/fs';
 import * as mustache from 'mustache';
 import * as xml2js from 'xml2js';
 import * as logger from 'winston';
@@ -32,12 +32,12 @@ class PipelineChain {
     }
 
     public toPUml(): string {
-        let nodes = _(this.links).map( ( link:PipelineLink) => {
+        let nodes = _(this.links).map((link: PipelineLink) => {
             return link.name
-        }).map(name=>`object ${name}`)
-        .value();
+        }).map(name => `object ${name}`)
+            .value();
         let transitions = _(this.links)
-            .flatMap((link: PipelineLink) => _.toPairs(link.transitions).map(pair => [link.name,pair]))
+            .flatMap((link: PipelineLink) => _.toPairs(link.transitions).map(pair => [link.name, pair]))
             .map(elem => `${elem[0]} "${elem[1][0]}" --> ${elem[1][1]}`)
             .value();
 
@@ -72,26 +72,6 @@ class PipelineLink {
         logger.log('transitions %j', this.transitions)
     }
 
-    // public toPUml(chain: PipelineChain): string {
-    //     let res = [`:${this.name};`];
-    //     let tSize = this.transitions.size;
-    //     if (tSize > 1) {
-    //         let fork = []
-    //         _.forEach(this.transitions, (val, nextName) => {
-    //             fork.push(chain.links[nextName].toPUml(chain));
-    //         })
-    //         let forkText = `${fork.join('\n')}`;
-    //         res.push(forkText);
-    //     } else if (tSize === 1) {
-    //         res.push((_(chain.links).toPairs().first()[1] as PipelineLink).toPUml(chain));
-    //     } else {
-    //         res.push('stop;')
-    //     }
-
-
-    //     return res.join('\n');
-    // }
-
 }
 
 export class PipelineParser {
@@ -101,26 +81,24 @@ export class PipelineParser {
 
     }
 
-    public parse(file: string): void {
+    public parse(file: string, splitFolder: string): void {
 
         this.readFile(file)
             .then(this.buildModel)
-            .then(chains => _.map(chains, chain => chain.toPUml()))
-            .then(data => {
-                console.log('@startuml');
-                console.log(data.join('\n'));
-                console.log('@enduml');
-            })
+
+            .then(data => this.handleOutput(data, splitFolder))
             .catch(console.error)
             ;
 
 
     }
 
+
+
     private readFile(file: string): Q.Promise<any> {
         let def: Q.Deferred<any> = Q.defer<any>();
 
-        fs.readFile(file, function(err, data) {
+        fs.readFile(file, (err, data) => {
             if (err) {
                 def.reject(err);
             } else {
@@ -145,6 +123,41 @@ export class PipelineParser {
 
         def.resolve(pipes)
         return def.promise;
+
+    }
+
+    private handleOutput(chains: PipelineChain[], splitFolder: string): Promise<PipelineChain[]> {
+
+
+        if (_.isNil(splitFolder)) {
+            let data = _(chains).map(chain => chain.toPUml()).value();
+            console.log('@startuml');
+            console.log(data.join('\n'));
+            console.log('@enduml');
+            return Promise.resolve(chains);
+        } else {
+
+            return fs.exists(splitFolder)
+                .then(exists => {
+                    if (exists) {
+                        return Promise.resolve(true);
+                    } else {
+                        return fs.mkdir(splitFolder).then(() => true)
+
+                    }
+                })
+                .then(() => {
+                    let writeProm = _.map(chains, (chain) => {
+                        let file = path.join(splitFolder, chain.name + '.puml');
+                        console.log('writing to %s',file)
+                        fs.writeFile(file, chain.toPUml());
+                    })
+
+                    return Promise.all(writeProm);
+                })
+                .then(() => Promise.resolve(chains))
+
+        }
 
     }
 

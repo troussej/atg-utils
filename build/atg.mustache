@@ -10,7 +10,7 @@ config.checkRequirements().then(
         program
             .version('{{version}}')
             {{#commands}}
-            .command("{{& command}}","{{description}}")
+            .command("{{& name}}","{{description}}")
             {{/commands}}
             .parse(process.argv);
 

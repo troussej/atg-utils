@@ -23,15 +23,13 @@ class Pipeline extends Command {
 
 
     handle = () => { };
-    action = (filepath: string, options:any) => {
-        console.log('options %j', options);
-        //console.log('npath %s', modulepath);
+    action = (filepath: string,options:any) => {
         if (_.isEmpty(filepath)) {
             logger.error('Missing argument filepath');
         } else {
 
             let mp = new PipelineParser();
-            mp.parse(filepath);
+            mp.parse(filepath, options.split);
 
         }
     };

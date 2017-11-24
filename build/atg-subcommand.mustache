@@ -4,19 +4,25 @@
 const program = require('commander');
 const handler = require('../commands/{{scriptName}}.command')
 const config = require('../config.module');
+const _ = require('lodash');
 
 config.checkRequirements().then(
-    ()=>{
-       <!--  _.each(handler.options,(opt)=>{
-            program.option(opt.arguments,opt.description)
-        }); -->
-        program
-        .arguments(handler.arguments)
-        .action(handler.action)
-        .parse(process.argv);
+    () => {
+
+        try {
+
+            _.each(handler.options, (opt) => {
+                program.option(opt.argument, opt.description)
+            });
+            program
+                .arguments(handler.arguments)
+                .action(handler.action)
+                .parse(process.argv);
 
 
-        handler.handle(program);
+            handler.handle(program);
+        } catch (e) {
+            console.error(e);
+        }
     }
 )
-
