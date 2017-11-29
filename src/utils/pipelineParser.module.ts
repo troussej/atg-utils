@@ -33,8 +33,10 @@ class PipelineChain {
 
     public toPUml(): string {
         let nodes = _(this.links).map((link: PipelineLink) => {
-            return link.name
-        }).map(name => `object ${name}`)
+            return `object ${link.name} {
+       processor : ${link.processor}     
+    }`
+        })
             .value();
         let transitions = _(this.links)
             .flatMap((link: PipelineLink) => _.toPairs(link.transitions).map(pair => [link.name, pair]))
@@ -149,7 +151,7 @@ export class PipelineParser {
                 .then(() => {
                     let writeProm = _.map(chains, (chain) => {
                         let file = path.join(splitFolder, chain.name + '.puml');
-                        console.log('writing to %s',file)
+                        console.log('writing to %s', file)
                         fs.writeFile(file, chain.toPUml());
                     })
 

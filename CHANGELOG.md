@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.3.3] - 2017-11-29
+### Added 
+ - Pipeline: add component path
+
 ## [1.3.1] - 2017-11-24
 ### Added 
  - Flag to split chains in unitary files
